@@ -1,0 +1,1095 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.3.4
+-- Dumped by pg_dump version 9.3.4
+-- Started on 2014-10-19 15:12:39
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 190 (class 3079 OID 11750)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 2097 (class 0 OID 0)
+-- Dependencies: 190
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 170 (class 1259 OID 41818)
+-- Name: assunto; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE assunto (
+    id bigint NOT NULL,
+    nome character varying(255),
+    modulo_id bigint
+);
+
+
+ALTER TABLE public.assunto OWNER TO postgres;
+
+--
+-- TOC entry 171 (class 1259 OID 41821)
+-- Name: assunto_conquista; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE assunto_conquista (
+    assunto_id bigint NOT NULL,
+    conquistas_id bigint NOT NULL
+);
+
+
+ALTER TABLE public.assunto_conquista OWNER TO postgres;
+
+--
+-- TOC entry 172 (class 1259 OID 41824)
+-- Name: assunto_exercicio; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE assunto_exercicio (
+    assunto_id bigint NOT NULL,
+    exercicios_id bigint NOT NULL
+);
+
+
+ALTER TABLE public.assunto_exercicio OWNER TO postgres;
+
+--
+-- TOC entry 173 (class 1259 OID 41827)
+-- Name: badge; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE badge (
+    id bigint NOT NULL,
+    descricao character varying(255),
+    nome character varying(255),
+    nomeimagem character varying(255)
+);
+
+
+ALTER TABLE public.badge OWNER TO postgres;
+
+--
+-- TOC entry 174 (class 1259 OID 41833)
+-- Name: badge_conquista; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE badge_conquista (
+    badge_id bigint NOT NULL,
+    conquistas_id bigint NOT NULL
+);
+
+
+ALTER TABLE public.badge_conquista OWNER TO postgres;
+
+--
+-- TOC entry 175 (class 1259 OID 41836)
+-- Name: conquista; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE conquista (
+    id bigint NOT NULL,
+    numerodebadges integer NOT NULL,
+    assunto_id bigint NOT NULL,
+    badge_id bigint NOT NULL,
+    usuario_login character varying(255)
+);
+
+
+ALTER TABLE public.conquista OWNER TO postgres;
+
+--
+-- TOC entry 184 (class 1259 OID 42140)
+-- Name: exercicio; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE exercicio (
+    dtype character varying(31) NOT NULL,
+    id bigint NOT NULL,
+    descricao character varying(255),
+    nome character varying(255),
+    pontos integer NOT NULL,
+    tentativas integer NOT NULL,
+    respostauml character varying(255),
+    codigoreferencia character varying(255),
+    respostajava character varying(255),
+    assunto_id bigint
+);
+
+
+ALTER TABLE public.exercicio OWNER TO postgres;
+
+--
+-- TOC entry 176 (class 1259 OID 41845)
+-- Name: exercicio_dicas; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE exercicio_dicas (
+    exercicio_id bigint NOT NULL,
+    dicas character varying(255)
+);
+
+
+ALTER TABLE public.exercicio_dicas OWNER TO postgres;
+
+--
+-- TOC entry 185 (class 1259 OID 42148)
+-- Name: exercicio_imagemexercicio; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE exercicio_imagemexercicio (
+    exercicio_id bigint NOT NULL,
+    alternativas_id bigint NOT NULL,
+    alternativas_key integer NOT NULL
+);
+
+
+ALTER TABLE public.exercicio_imagemexercicio OWNER TO postgres;
+
+--
+-- TOC entry 187 (class 1259 OID 42245)
+-- Name: exercicio_progresso; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE exercicio_progresso (
+    exercicio_id bigint NOT NULL,
+    historico_id bigint NOT NULL
+);
+
+
+ALTER TABLE public.exercicio_progresso OWNER TO postgres;
+
+--
+-- TOC entry 177 (class 1259 OID 41851)
+-- Name: exerciciojava_exemploscodigos; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE exerciciojava_exemploscodigos (
+    exerciciojava_id bigint NOT NULL,
+    exemploscodigos character varying(255)
+);
+
+
+ALTER TABLE public.exerciciojava_exemploscodigos OWNER TO postgres;
+
+--
+-- TOC entry 178 (class 1259 OID 41854)
+-- Name: hibernate_sequence; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE hibernate_sequence
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.hibernate_sequence OWNER TO postgres;
+
+--
+-- TOC entry 186 (class 1259 OID 42153)
+-- Name: imagemexercicio; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE imagemexercicio (
+    id bigint NOT NULL,
+    caminhoimagem character varying(255),
+    nomeimagem character varying(255)
+);
+
+
+ALTER TABLE public.imagemexercicio OWNER TO postgres;
+
+--
+-- TOC entry 179 (class 1259 OID 41862)
+-- Name: modulo; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE modulo (
+    id bigint NOT NULL,
+    nome character varying(255)
+);
+
+
+ALTER TABLE public.modulo OWNER TO postgres;
+
+--
+-- TOC entry 180 (class 1259 OID 41865)
+-- Name: modulo_assunto; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE modulo_assunto (
+    modulo_id bigint NOT NULL,
+    assuntos_id bigint NOT NULL
+);
+
+
+ALTER TABLE public.modulo_assunto OWNER TO postgres;
+
+--
+-- TOC entry 181 (class 1259 OID 41871)
+-- Name: nivel; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE nivel (
+    id bigint NOT NULL,
+    nome character varying(255),
+    nomeimagem character varying(255),
+    pontos integer NOT NULL
+);
+
+
+ALTER TABLE public.nivel OWNER TO postgres;
+
+--
+-- TOC entry 188 (class 1259 OID 42276)
+-- Name: progresso; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE progresso (
+    id bigint NOT NULL,
+    porcentagem integer NOT NULL,
+    exercicio_id bigint,
+    usuario_login character varying(255)
+);
+
+
+ALTER TABLE public.progresso OWNER TO postgres;
+
+--
+-- TOC entry 183 (class 1259 OID 42060)
+-- Name: usuario; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE usuario (
+    login character varying(255) NOT NULL,
+    nome character varying(255) NOT NULL,
+    pontos integer NOT NULL,
+    posicao integer NOT NULL,
+    senha character varying(255) NOT NULL,
+    nivel_id bigint NOT NULL
+);
+
+
+ALTER TABLE public.usuario OWNER TO postgres;
+
+--
+-- TOC entry 182 (class 1259 OID 41886)
+-- Name: usuario_conquista; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE usuario_conquista (
+    usuario_login character varying(255) NOT NULL,
+    badges_id bigint NOT NULL
+);
+
+
+ALTER TABLE public.usuario_conquista OWNER TO postgres;
+
+--
+-- TOC entry 189 (class 1259 OID 42466)
+-- Name: usuario_progresso; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE usuario_progresso (
+    usuario_login character varying(255) NOT NULL,
+    progressos_id bigint NOT NULL
+);
+
+
+ALTER TABLE public.usuario_progresso OWNER TO postgres;
+
+--
+-- TOC entry 2071 (class 0 OID 41818)
+-- Dependencies: 170
+-- Data for Name: assunto; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO assunto (id, nome, modulo_id) VALUES (5, 'Primeiro Programa', 1);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (6, 'M√©todo main', 1);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (7, 'Declara√ß√µes e tipos de vari√°veis', 1);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (8, 'C√°lculos aritm√©tico com Java ', 1);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (9, 'Classe Scanner', 1);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (10, 'Import de classes', 1);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (11, 'Operadores relacionais', 1);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (12, 'Estruturas de decis√£o', 1);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (13, 'Operadores l√≥gicos', 1);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (14, 'Estruturas de repeti√ß√£o', 1);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (15, 'Conceitos sobre m√©todos', 1);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (16, 'Conceitos sobre classe', 1);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (17, 'Conceitos sobre objeto', 1);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (18, 'Padr„o Java Bean', 1);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (19, 'Modificadores de acesso', 1);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (20, 'Tipos primitivos e tipos por referencia', 1);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (21, 'MÈtodo construtor', 1);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (22, 'MÈtodo aprofundado', 2);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (23, 'Modificadores', 2);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (24, 'Pacotes do Java API', 2);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (25, 'Estrutura de dados', 2);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (26, 'For avan√ßado', 2);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (28, 'CriaÁ„o de packages', 2);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (27, 'EnumeraÁıes', 2);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (29, 'Diagrama de Casos de Uso', 3);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (30, 'Diagrama de Classes', 3);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (31, 'Diagrama de Objetos', 3);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (32, 'Diagrama de Pacote', 3);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (33, 'Diagrama de Sequencia', 3);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (34, 'Diagrama de ComunicaÁ„o', 3);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (35, 'Diagrama de M·quinade Estados', 1);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (36, 'Diagrama de Atividade', 3);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (37, 'Diagrama de Vis„o Geral de InteraÁ„o', 3);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (38, 'Diagrama de Componentes', 3);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (39, 'Diagrama de ImpantaÁ„o', 3);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (40, 'Diagrama de Estrutura Composta', 3);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (41, 'Diagrama de Tempo ou de TemporizaÁ„o', 3);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (43, 'Encapsulamento', 4);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (44, 'Relacionamentos', 4);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (45, 'HeranÁa', 4);
+INSERT INTO assunto (id, nome, modulo_id) VALUES (46, 'Polimorfismo', 4);
+
+
+--
+-- TOC entry 2072 (class 0 OID 41821)
+-- Dependencies: 171
+-- Data for Name: assunto_conquista; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO assunto_conquista (assunto_id, conquistas_id) VALUES (5, 60);
+INSERT INTO assunto_conquista (assunto_id, conquistas_id) VALUES (29, 123);
+
+
+--
+-- TOC entry 2073 (class 0 OID 41824)
+-- Dependencies: 172
+-- Data for Name: assunto_exercicio; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO assunto_exercicio (assunto_id, exercicios_id) VALUES (29, 57);
+INSERT INTO assunto_exercicio (assunto_id, exercicios_id) VALUES (29, 134);
+
+
+--
+-- TOC entry 2074 (class 0 OID 41827)
+-- Dependencies: 173
+-- Data for Name: badge; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO badge (id, descricao, nome, nomeimagem) VALUES (59, 'Primeiro programa do primeiro modulo de Java', '1∞Programa', 'imagens/badge/conhecendo_java/primeiro_programa.png');
+INSERT INTO badge (id, descricao, nome, nomeimagem) VALUES (122, 'Primeiro diagrama do modulo de Uml', '1∞Diagrama', 'imagens/badge/diagrama_de_caso_de_uso/primeiro_diagrama.png');
+
+
+--
+-- TOC entry 2075 (class 0 OID 41833)
+-- Dependencies: 174
+-- Data for Name: badge_conquista; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2076 (class 0 OID 41836)
+-- Dependencies: 175
+-- Data for Name: conquista; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO conquista (id, numerodebadges, assunto_id, badge_id, usuario_login) VALUES (123, 1, 29, 122, 'teste2');
+INSERT INTO conquista (id, numerodebadges, assunto_id, badge_id, usuario_login) VALUES (60, 1, 5, 59, 'igmarcelo');
+
+
+--
+-- TOC entry 2085 (class 0 OID 42140)
+-- Dependencies: 184
+-- Data for Name: exercicio; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO exercicio (dtype, id, descricao, nome, pontos, tentativas, respostauml, codigoreferencia, respostajava, assunto_id) VALUES ('ExercicioJava', 58, ' O seu primeiro programa È bem simples, digite dentro dos par√™nteses no comando Java ao lado a frase junto com as aspas duplas "Ol· Mundo". Clique no bot„o Enviar e veja o resultado da execuÁ„o do seu primeiro programa', 'Exercicio 1: Ol· Mundo', 130, 3, NULL, 'System.out.println();', 'Ol√° Mundo', 5);
+INSERT INTO exercicio (dtype, id, descricao, nome, pontos, tentativas, respostauml, codigoreferencia, respostajava, assunto_id) VALUES ('ExercicioUml', 57, 'Qual desses desenhos representa corretamente um ator do sistema.', 'Exercicio 1', 100, 3, 'B', NULL, NULL, 29);
+INSERT INTO exercicio (dtype, id, descricao, nome, pontos, tentativas, respostauml, codigoreferencia, respostajava, assunto_id) VALUES ('ExercicioUml', 134, 'Qual desses desenhos representa corretamente um Caso de Uso.', 'Exercicio 2', 100, 3, 'A', NULL, NULL, 29);
+INSERT INTO exercicio (dtype, id, descricao, nome, pontos, tentativas, respostauml, codigoreferencia, respostajava, assunto_id) VALUES ('ExercicioUml', 150, 'Qual desses desenhos representa corretamente um Diagrama de Classe.', 'Exercicio 3', 100, 3, 'C', NULL, NULL, 30);
+
+
+--
+-- TOC entry 2077 (class 0 OID 41845)
+-- Dependencies: 176
+-- Data for Name: exercicio_dicas; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO exercicio_dicas (exercicio_id, dicas) VALUES (58, 'Use as dicas quando estiver com dificuldade de resolver algum exercicio');
+INSERT INTO exercicio_dicas (exercicio_id, dicas) VALUES (58, 'Mas cuidado, cada uso de dica diminui 10 pontos do exercicio');
+INSERT INTO exercicio_dicas (exercicio_id, dicas) VALUES (58, 'E se ultrapassar o n√∫mero de tentativas perde 20 pontos do exercicio.');
+
+
+--
+-- TOC entry 2086 (class 0 OID 42148)
+-- Dependencies: 185
+-- Data for Name: exercicio_imagemexercicio; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO exercicio_imagemexercicio (exercicio_id, alternativas_id, alternativas_key) VALUES (57, 1, 0);
+INSERT INTO exercicio_imagemexercicio (exercicio_id, alternativas_id, alternativas_key) VALUES (57, 3, 2);
+INSERT INTO exercicio_imagemexercicio (exercicio_id, alternativas_id, alternativas_key) VALUES (57, 4, 3);
+INSERT INTO exercicio_imagemexercicio (exercicio_id, alternativas_id, alternativas_key) VALUES (57, 2, 1);
+INSERT INTO exercicio_imagemexercicio (exercicio_id, alternativas_id, alternativas_key) VALUES (134, 8, 3);
+INSERT INTO exercicio_imagemexercicio (exercicio_id, alternativas_id, alternativas_key) VALUES (134, 7, 2);
+INSERT INTO exercicio_imagemexercicio (exercicio_id, alternativas_id, alternativas_key) VALUES (134, 5, 0);
+INSERT INTO exercicio_imagemexercicio (exercicio_id, alternativas_id, alternativas_key) VALUES (134, 6, 1);
+INSERT INTO exercicio_imagemexercicio (exercicio_id, alternativas_id, alternativas_key) VALUES (150, 11, 2);
+INSERT INTO exercicio_imagemexercicio (exercicio_id, alternativas_id, alternativas_key) VALUES (150, 9, 0);
+INSERT INTO exercicio_imagemexercicio (exercicio_id, alternativas_id, alternativas_key) VALUES (150, 12, 3);
+INSERT INTO exercicio_imagemexercicio (exercicio_id, alternativas_id, alternativas_key) VALUES (150, 10, 1);
+
+
+--
+-- TOC entry 2088 (class 0 OID 42245)
+-- Dependencies: 187
+-- Data for Name: exercicio_progresso; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2078 (class 0 OID 41851)
+-- Dependencies: 177
+-- Data for Name: exerciciojava_exemploscodigos; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+
+
+--
+-- TOC entry 2098 (class 0 OID 0)
+-- Dependencies: 178
+-- Name: hibernate_sequence; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('hibernate_sequence', 234, true);
+
+
+--
+-- TOC entry 2087 (class 0 OID 42153)
+-- Dependencies: 186
+-- Data for Name: imagemexercicio; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO imagemexercicio (id, caminhoimagem, nomeimagem) VALUES (1, 'imagens/exercicios/uml/diagrama_de_caso_de_uso/exercicio1', 'alternativaA.png');
+INSERT INTO imagemexercicio (id, caminhoimagem, nomeimagem) VALUES (2, 'imagens/exercicios/uml/diagrama_de_caso_de_uso/exercicio1', 'alternativaB.png');
+INSERT INTO imagemexercicio (id, caminhoimagem, nomeimagem) VALUES (3, 'imagens/exercicios/uml/diagrama_de_caso_de_uso/exercicio1', 'alternativaC.png');
+INSERT INTO imagemexercicio (id, caminhoimagem, nomeimagem) VALUES (4, 'imagens/exercicios/uml/diagrama_de_caso_de_uso/exercicio1', 'alternativaD.png');
+INSERT INTO imagemexercicio (id, caminhoimagem, nomeimagem) VALUES (5, 'imagens/exercicios/uml/diagrama_de_caso_de_uso/exercicio2', 'alternativaA.png');
+INSERT INTO imagemexercicio (id, caminhoimagem, nomeimagem) VALUES (6, 'imagens/exercicios/uml/diagrama_de_caso_de_uso/exercicio2', 'alternativaB.png');
+INSERT INTO imagemexercicio (id, caminhoimagem, nomeimagem) VALUES (7, 'imagens/exercicios/uml/diagrama_de_caso_de_uso/exercicio2', 'alternativaC.png');
+INSERT INTO imagemexercicio (id, caminhoimagem, nomeimagem) VALUES (8, 'imagens/exercicios/uml/diagrama_de_caso_de_uso/exercicio2', 'alternativaD.png');
+INSERT INTO imagemexercicio (id, caminhoimagem, nomeimagem) VALUES (9, 'imagens/exercicios/uml/diagrama_de_classes/exercicio1', 'alternativaA.png');
+INSERT INTO imagemexercicio (id, caminhoimagem, nomeimagem) VALUES (10, 'imagens/exercicios/uml/diagrama_de_classes/exercicio1', 'alternativaB.png');
+INSERT INTO imagemexercicio (id, caminhoimagem, nomeimagem) VALUES (11, 'imagens/exercicios/uml/diagrama_de_classes/exercicio1', 'alternativaC.png');
+INSERT INTO imagemexercicio (id, caminhoimagem, nomeimagem) VALUES (12, 'imagens/exercicios/uml/diagrama_de_classes/exercicio1', 'alternativaD.png');
+
+
+--
+-- TOC entry 2080 (class 0 OID 41862)
+-- Dependencies: 179
+-- Data for Name: modulo; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO modulo (id, nome) VALUES (1, 'Conhecendo Java');
+INSERT INTO modulo (id, nome) VALUES (2, 'Aprofundando em Java');
+INSERT INTO modulo (id, nome) VALUES (3, 'UML');
+INSERT INTO modulo (id, nome) VALUES (4, 'Conceitos de Orienta√ß√£o a Objeto com Java');
+
+
+--
+-- TOC entry 2081 (class 0 OID 41865)
+-- Dependencies: 180
+-- Data for Name: modulo_assunto; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (1, 5);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (1, 6);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (1, 7);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (1, 8);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (1, 9);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (1, 10);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (1, 11);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (1, 12);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (1, 13);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (1, 14);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (1, 15);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (1, 16);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (1, 17);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (1, 18);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (1, 19);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (1, 20);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (1, 21);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (1, 35);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (2, 22);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (2, 23);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (2, 24);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (2, 25);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (2, 26);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (2, 28);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (2, 27);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (3, 29);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (3, 30);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (3, 31);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (3, 32);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (3, 33);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (3, 34);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (3, 36);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (3, 37);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (3, 38);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (3, 39);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (3, 40);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (3, 41);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (4, 43);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (4, 44);
+INSERT INTO modulo_assunto (modulo_id, assuntos_id) VALUES (4, 45);
+
+
+--
+-- TOC entry 2082 (class 0 OID 41871)
+-- Dependencies: 181
+-- Data for Name: nivel; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO nivel (id, nome, nomeimagem, pontos) VALUES (47, 'Novato', 'imagens/nivel/novato.png', 0);
+INSERT INTO nivel (id, nome, nomeimagem, pontos) VALUES (48, 'Programador', 'imagens/nivel/programador.png', 500);
+INSERT INTO nivel (id, nome, nomeimagem, pontos) VALUES (49, 'Ninja', 'imagens/nivel/ninja.png', 1000);
+INSERT INTO nivel (id, nome, nomeimagem, pontos) VALUES (50, 'Experiente', 'imagens/nivel/experiente.png', 2000);
+INSERT INTO nivel (id, nome, nomeimagem, pontos) VALUES (51, 'Javaman', 'imagens/nivel/javaman.png', 2500);
+
+
+--
+-- TOC entry 2089 (class 0 OID 42276)
+-- Dependencies: 188
+-- Data for Name: progresso; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (165, 0, 57, 'teste1');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (166, 0, 134, 'teste1');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (167, 0, 58, 'teste1');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (168, 0, 57, 'igmarcelo');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (169, 0, 134, 'igmarcelo');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (170, 0, 134, 'igmarcelo');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (171, 0, 134, 'igmarcelo');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (172, 0, 57, 'igmarcelo');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (173, 0, 134, 'igmarcelo');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (174, 0, 134, 'igmarcelo');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (177, 0, 57, 'igmarcelo');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (178, 0, 134, 'igmarcelo');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (179, 0, 58, 'igmarcelo');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (180, 0, 58, 'igmarcelo');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (181, 0, 57, 'teste4');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (182, 0, 134, 'teste4');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (183, 0, 58, 'igmarcelo');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (185, 0, 58, 'teste6');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (186, 0, 57, 'teste6');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (187, 0, 134, 'teste6');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (188, 0, 57, 'teste6');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (189, 0, 57, 'teste6');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (191, 0, 57, 'teste7');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (194, 25, 57, 'teste2');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (196, 50, 57, 'teste2');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (199, 50, 57, 'teste2');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (200, 50, 134, 'teste2');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (201, 75, 58, 'teste2');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (202, 50, 57, 'teste1');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (203, 50, 57, 'teste1');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (204, 50, 57, 'teste1');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (205, 50, 57, 'igmarcelo');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (206, 50, 57, 'igmarcelo');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (207, 50, 57, 'igmarcelo');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (208, 100, 57, 'teste2');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (209, 125, 134, 'teste2');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (210, 25, 58, 'teste2');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (211, 50, 57, 'teste2');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (212, 75, 134, 'teste2');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (213, 100, 57, 'teste2');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (214, 125, 134, 'teste2');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (219, 150, 57, 'teste2');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (220, 175, 134, 'teste2');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (221, 200, 57, 'teste2');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (222, 225, 134, 'teste2');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (223, 250, 57, 'teste2');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (224, 275, 57, 'teste2');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (225, 300, 57, 'teste2');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (226, 0, 57, 'teste2');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (227, 0, 58, 'teste2');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (228, 25, 57, 'teste2');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (229, 50, 134, 'teste2');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (230, 0, 57, 'teste2');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (231, 75, 58, 'teste2');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (232, 0, 57, 'teste2');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (233, 0, 134, 'teste2');
+INSERT INTO progresso (id, porcentagem, exercicio_id, usuario_login) VALUES (234, 25, 58, 'igmarcelo');
+
+
+--
+-- TOC entry 2084 (class 0 OID 42060)
+-- Dependencies: 183
+-- Data for Name: usuario; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO usuario (login, nome, pontos, posicao, senha, nivel_id) VALUES ('teste3', 'Teste3', 1720, 7, '123456', 49);
+INSERT INTO usuario (login, nome, pontos, posicao, senha, nivel_id) VALUES ('teste9', 'Teste9', 780, 8, '123456', 48);
+INSERT INTO usuario (login, nome, pontos, posicao, senha, nivel_id) VALUES ('teste4', 'Teste4', 2170, 4, '123456', 49);
+INSERT INTO usuario (login, nome, pontos, posicao, senha, nivel_id) VALUES ('teste1', 'Teste1', 2620, 2, '123456', 51);
+INSERT INTO usuario (login, nome, pontos, posicao, senha, nivel_id) VALUES ('teste2', 'Teste2', 3150, 1, '123456', 51);
+INSERT INTO usuario (login, nome, pontos, posicao, senha, nivel_id) VALUES ('teste8', 'Teste8', 360, 9, '123456', 47);
+INSERT INTO usuario (login, nome, pontos, posicao, senha, nivel_id) VALUES ('igmarcelo', 'Igor Marcelo', 2320, 6, '123456', 50);
+INSERT INTO usuario (login, nome, pontos, posicao, senha, nivel_id) VALUES ('teste6', 'Teste6', 2530, 3, '123456', 51);
+INSERT INTO usuario (login, nome, pontos, posicao, senha, nivel_id) VALUES ('teste5', 'Teste5', 2610, 2, '123456', 47);
+INSERT INTO usuario (login, nome, pontos, posicao, senha, nivel_id) VALUES ('teste7', 'Teste7', 2700, 1, '123456', 48);
+
+
+--
+-- TOC entry 2083 (class 0 OID 41886)
+-- Dependencies: 182
+-- Data for Name: usuario_conquista; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO usuario_conquista (usuario_login, badges_id) VALUES ('teste3', 60);
+
+
+--
+-- TOC entry 2090 (class 0 OID 42466)
+-- Dependencies: 189
+-- Data for Name: usuario_progresso; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO usuario_progresso (usuario_login, progressos_id) VALUES ('teste2', 228);
+INSERT INTO usuario_progresso (usuario_login, progressos_id) VALUES ('teste2', 229);
+INSERT INTO usuario_progresso (usuario_login, progressos_id) VALUES ('teste2', 231);
+INSERT INTO usuario_progresso (usuario_login, progressos_id) VALUES ('igmarcelo', 234);
+
+
+--
+-- TOC entry 1901 (class 2606 OID 41893)
+-- Name: assunto_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY assunto
+    ADD CONSTRAINT assunto_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1907 (class 2606 OID 41895)
+-- Name: badge_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY badge
+    ADD CONSTRAINT badge_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1911 (class 2606 OID 41897)
+-- Name: conquista_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY conquista
+    ADD CONSTRAINT conquista_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1927 (class 2606 OID 42152)
+-- Name: exercicio_imagemexercicio_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY exercicio_imagemexercicio
+    ADD CONSTRAINT exercicio_imagemexercicio_pkey PRIMARY KEY (exercicio_id, alternativas_key);
+
+
+--
+-- TOC entry 1925 (class 2606 OID 42147)
+-- Name: exercicio_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY exercicio
+    ADD CONSTRAINT exercicio_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1931 (class 2606 OID 42160)
+-- Name: imagemexercicio_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY imagemexercicio
+    ADD CONSTRAINT imagemexercicio_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1915 (class 2606 OID 41905)
+-- Name: modulo_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY modulo
+    ADD CONSTRAINT modulo_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1919 (class 2606 OID 41907)
+-- Name: nivel_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY nivel
+    ADD CONSTRAINT nivel_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1935 (class 2606 OID 42280)
+-- Name: progresso_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY progresso
+    ADD CONSTRAINT progresso_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1913 (class 2606 OID 42194)
+-- Name: uk_1ng85m4ye1vmpe0u0ude4vdv0; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY conquista
+    ADD CONSTRAINT uk_1ng85m4ye1vmpe0u0ude4vdv0 UNIQUE (badge_id);
+
+
+--
+-- TOC entry 1903 (class 2606 OID 41911)
+-- Name: uk_4m3yorocatrrd914ljwh8nkek; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY assunto_conquista
+    ADD CONSTRAINT uk_4m3yorocatrrd914ljwh8nkek UNIQUE (conquistas_id);
+
+
+--
+-- TOC entry 1921 (class 2606 OID 41913)
+-- Name: uk_6shxnewhrvfjdcqhts6ci7dkw; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY usuario_conquista
+    ADD CONSTRAINT uk_6shxnewhrvfjdcqhts6ci7dkw UNIQUE (badges_id);
+
+
+--
+-- TOC entry 1905 (class 2606 OID 41919)
+-- Name: uk_9n2y0ugppfvxowba415vbm3yd; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY assunto_exercicio
+    ADD CONSTRAINT uk_9n2y0ugppfvxowba415vbm3yd UNIQUE (exercicios_id);
+
+
+--
+-- TOC entry 1917 (class 2606 OID 41921)
+-- Name: uk_k69g3p39obkb4o5fvvojm8ld; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY modulo_assunto
+    ADD CONSTRAINT uk_k69g3p39obkb4o5fvvojm8ld UNIQUE (assuntos_id);
+
+
+--
+-- TOC entry 1929 (class 2606 OID 42162)
+-- Name: uk_lt77f12kxqw46jqu2xw57brsc; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY exercicio_imagemexercicio
+    ADD CONSTRAINT uk_lt77f12kxqw46jqu2xw57brsc UNIQUE (alternativas_id);
+
+
+--
+-- TOC entry 1933 (class 2606 OID 42249)
+-- Name: uk_rl8p4sm944qtgpb7qg1pa7hms; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY exercicio_progresso
+    ADD CONSTRAINT uk_rl8p4sm944qtgpb7qg1pa7hms UNIQUE (historico_id);
+
+
+--
+-- TOC entry 1937 (class 2606 OID 42470)
+-- Name: uk_tnnumk8fl1760dx6m38lvk6uv; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY usuario_progresso
+    ADD CONSTRAINT uk_tnnumk8fl1760dx6m38lvk6uv UNIQUE (progressos_id);
+
+
+--
+-- TOC entry 1909 (class 2606 OID 41925)
+-- Name: uk_trtd6vqjvyxbvebdhgvy5upck; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY badge_conquista
+    ADD CONSTRAINT uk_trtd6vqjvyxbvebdhgvy5upck UNIQUE (conquistas_id);
+
+
+--
+-- TOC entry 1923 (class 2606 OID 42067)
+-- Name: usuario_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY usuario
+    ADD CONSTRAINT usuario_pkey PRIMARY KEY (login);
+
+
+--
+-- TOC entry 1943 (class 2606 OID 41928)
+-- Name: fk_1l0iw7roe88jjk99a152sa0vq; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY badge_conquista
+    ADD CONSTRAINT fk_1l0iw7roe88jjk99a152sa0vq FOREIGN KEY (badge_id) REFERENCES badge(id);
+
+
+--
+-- TOC entry 1945 (class 2606 OID 41933)
+-- Name: fk_1ng85m4ye1vmpe0u0ude4vdv0; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY conquista
+    ADD CONSTRAINT fk_1ng85m4ye1vmpe0u0ude4vdv0 FOREIGN KEY (badge_id) REFERENCES badge(id);
+
+
+--
+-- TOC entry 1963 (class 2606 OID 42476)
+-- Name: fk_3cwipcms0lfys14mdqy15lo4c; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY usuario_progresso
+    ADD CONSTRAINT fk_3cwipcms0lfys14mdqy15lo4c FOREIGN KEY (usuario_login) REFERENCES usuario(login);
+
+
+--
+-- TOC entry 1938 (class 2606 OID 41943)
+-- Name: fk_4536pl5w3irebb72907syqrsd; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY assunto
+    ADD CONSTRAINT fk_4536pl5w3irebb72907syqrsd FOREIGN KEY (modulo_id) REFERENCES modulo(id);
+
+
+--
+-- TOC entry 1939 (class 2606 OID 41948)
+-- Name: fk_4m3yorocatrrd914ljwh8nkek; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY assunto_conquista
+    ADD CONSTRAINT fk_4m3yorocatrrd914ljwh8nkek FOREIGN KEY (conquistas_id) REFERENCES conquista(id);
+
+
+--
+-- TOC entry 1941 (class 2606 OID 41953)
+-- Name: fk_4q0k77l21q64q96dvqi66odw4; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY assunto_exercicio
+    ADD CONSTRAINT fk_4q0k77l21q64q96dvqi66odw4 FOREIGN KEY (assunto_id) REFERENCES assunto(id);
+
+
+--
+-- TOC entry 1950 (class 2606 OID 41958)
+-- Name: fk_5nxjdxrxixolchwmdr4epgkto; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY modulo_assunto
+    ADD CONSTRAINT fk_5nxjdxrxixolchwmdr4epgkto FOREIGN KEY (modulo_id) REFERENCES modulo(id);
+
+
+--
+-- TOC entry 1948 (class 2606 OID 42188)
+-- Name: fk_5vm8whtmhkehoqruyrrdbw90x; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY exercicio_dicas
+    ADD CONSTRAINT fk_5vm8whtmhkehoqruyrrdbw90x FOREIGN KEY (exercicio_id) REFERENCES exercicio(id);
+
+
+--
+-- TOC entry 1952 (class 2606 OID 41968)
+-- Name: fk_6shxnewhrvfjdcqhts6ci7dkw; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY usuario_conquista
+    ADD CONSTRAINT fk_6shxnewhrvfjdcqhts6ci7dkw FOREIGN KEY (badges_id) REFERENCES conquista(id);
+
+
+--
+-- TOC entry 1961 (class 2606 OID 42291)
+-- Name: fk_6u5hun55o3uqs6jdkj363i86v; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY progresso
+    ADD CONSTRAINT fk_6u5hun55o3uqs6jdkj363i86v FOREIGN KEY (usuario_login) REFERENCES usuario(login);
+
+
+--
+-- TOC entry 1954 (class 2606 OID 42073)
+-- Name: fk_87kkgmk1jw5ogcawkaq222jlx; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY usuario
+    ADD CONSTRAINT fk_87kkgmk1jw5ogcawkaq222jlx FOREIGN KEY (nivel_id) REFERENCES nivel(id);
+
+
+--
+-- TOC entry 1957 (class 2606 OID 42183)
+-- Name: fk_9dv008v5gv0lo3garcp8f8jaf; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY exercicio_imagemexercicio
+    ADD CONSTRAINT fk_9dv008v5gv0lo3garcp8f8jaf FOREIGN KEY (exercicio_id) REFERENCES exercicio(id);
+
+
+--
+-- TOC entry 1942 (class 2606 OID 42163)
+-- Name: fk_9n2y0ugppfvxowba415vbm3yd; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY assunto_exercicio
+    ADD CONSTRAINT fk_9n2y0ugppfvxowba415vbm3yd FOREIGN KEY (exercicios_id) REFERENCES exercicio(id);
+
+
+--
+-- TOC entry 1947 (class 2606 OID 42195)
+-- Name: fk_a2lu7i9jcdoo32nnqr1hbgm3y; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY conquista
+    ADD CONSTRAINT fk_a2lu7i9jcdoo32nnqr1hbgm3y FOREIGN KEY (usuario_login) REFERENCES usuario(login);
+
+
+--
+-- TOC entry 1958 (class 2606 OID 42255)
+-- Name: fk_angwxsnol3e41qde4cve3r92v; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY exercicio_progresso
+    ADD CONSTRAINT fk_angwxsnol3e41qde4cve3r92v FOREIGN KEY (exercicio_id) REFERENCES exercicio(id);
+
+
+--
+-- TOC entry 1960 (class 2606 OID 42286)
+-- Name: fk_b4e9x088hl72cc2kplfiicboo; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY progresso
+    ADD CONSTRAINT fk_b4e9x088hl72cc2kplfiicboo FOREIGN KEY (exercicio_id) REFERENCES exercicio(id);
+
+
+--
+-- TOC entry 1940 (class 2606 OID 42003)
+-- Name: fk_fnvyumtcdb914hig0brxv3hol; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY assunto_conquista
+    ADD CONSTRAINT fk_fnvyumtcdb914hig0brxv3hol FOREIGN KEY (assunto_id) REFERENCES assunto(id);
+
+
+--
+-- TOC entry 1955 (class 2606 OID 42168)
+-- Name: fk_fsg04ybi478vphhjr6aiatalw; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY exercicio
+    ADD CONSTRAINT fk_fsg04ybi478vphhjr6aiatalw FOREIGN KEY (assunto_id) REFERENCES assunto(id);
+
+
+--
+-- TOC entry 1951 (class 2606 OID 42018)
+-- Name: fk_k69g3p39obkb4o5fvvojm8ld; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY modulo_assunto
+    ADD CONSTRAINT fk_k69g3p39obkb4o5fvvojm8ld FOREIGN KEY (assuntos_id) REFERENCES assunto(id);
+
+
+--
+-- TOC entry 1956 (class 2606 OID 42178)
+-- Name: fk_lt77f12kxqw46jqu2xw57brsc; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY exercicio_imagemexercicio
+    ADD CONSTRAINT fk_lt77f12kxqw46jqu2xw57brsc FOREIGN KEY (alternativas_id) REFERENCES imagemexercicio(id);
+
+
+--
+-- TOC entry 1949 (class 2606 OID 42173)
+-- Name: fk_p87yhe9jajfvuxcnjrny0gs3f; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY exerciciojava_exemploscodigos
+    ADD CONSTRAINT fk_p87yhe9jajfvuxcnjrny0gs3f FOREIGN KEY (exerciciojava_id) REFERENCES exercicio(id);
+
+
+--
+-- TOC entry 1953 (class 2606 OID 42078)
+-- Name: fk_qmofrp3la5vrusukaxaksfp0c; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY usuario_conquista
+    ADD CONSTRAINT fk_qmofrp3la5vrusukaxaksfp0c FOREIGN KEY (usuario_login) REFERENCES usuario(login);
+
+
+--
+-- TOC entry 1946 (class 2606 OID 42043)
+-- Name: fk_qsvk4bc3mecmw71719gm3ybrm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY conquista
+    ADD CONSTRAINT fk_qsvk4bc3mecmw71719gm3ybrm FOREIGN KEY (assunto_id) REFERENCES assunto(id);
+
+
+--
+-- TOC entry 1959 (class 2606 OID 42281)
+-- Name: fk_rl8p4sm944qtgpb7qg1pa7hms; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY exercicio_progresso
+    ADD CONSTRAINT fk_rl8p4sm944qtgpb7qg1pa7hms FOREIGN KEY (historico_id) REFERENCES progresso(id);
+
+
+--
+-- TOC entry 1962 (class 2606 OID 42471)
+-- Name: fk_tnnumk8fl1760dx6m38lvk6uv; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY usuario_progresso
+    ADD CONSTRAINT fk_tnnumk8fl1760dx6m38lvk6uv FOREIGN KEY (progressos_id) REFERENCES progresso(id);
+
+
+--
+-- TOC entry 1944 (class 2606 OID 42048)
+-- Name: fk_trtd6vqjvyxbvebdhgvy5upck; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY badge_conquista
+    ADD CONSTRAINT fk_trtd6vqjvyxbvebdhgvy5upck FOREIGN KEY (conquistas_id) REFERENCES conquista(id);
+
+
+-- Completed on 2014-10-19 15:12:40
+
+--
+-- PostgreSQL database dump complete
+--
+
